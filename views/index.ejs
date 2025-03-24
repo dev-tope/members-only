@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+</head>
+<body>
+  <% if(locals.user) { %>  
+    <div>
+      <p>Welcome <%= user.username %> <% if(user.is_member){ %>
+        | <b>Member</b>
+     <% } %> <% if(user.is_admin) { %>
+        | <b>ADMIN</b>
+     <% } %></p>
+    </div>
+    <div>
+      <a href="/<%= user.username %>/create-message">Create New Message</a>
+      <a href="/auth/membership/<%= user.username %>">Become a member</a>
+      <a href="/<%= user.username %>/profile">Profile</a>
+      <a href="/log-out">Log out</a>
+    </div>
+    <div>
+      <% if(locals.messages && messages.length > 0) { %>
+        <% messages.forEach(message => { %>
+          <div>
+            <p><b>Sent by: </b>
+              <% if (user.is_member ||user.is_admin) { %>
+                <%= message.firstname %> <%= message.lastname %> @<%= message.username %>
+              <% } else { %>
+                <span>***** ***** @*****</span>
+              <% } %>
+            </p>
+            <p><b>Time sent: </b>
+              <% if(user.is_member || user.is_admin) { %>
+                <%= message.time %>
+              <% } else { %>
+                <span>**********</span>
+              <% } %>
+            </p>
+            <p><b>Title: </b><%= message.title %></p>
+
+            <p><b>Message: </b><%= message.message %></p>
+          </div>
+          <% if(user.is_admin) { %>
+            <form action="/admin/delete/<%= message.message_id %>" method="POST">
+              <button>DELETE</button>
+            </form>
+          <% } %>
+          <hr>
+        <% }); %>
+      <% } else { %>
+        <p>There are no messages.</p>
+      <%}%>
+    </div>
+  <% } else { %>
+    <a href="/auth/log-in">Log in here</a>
+    <br>
+    Dont have an account? <a href="/auth/sign-up">Sign up here</a>
+  <% } %>
+ 
+</body>
+</html>

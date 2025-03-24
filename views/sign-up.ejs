@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+</head>
+<body>
+  <h1>Sign Up</h1>
+  <%- include("partials/sign-up-errors") %>
+  <form action="/auth/sign-up" method="POST">
+    <label for="firstname">First Name</label>
+    <input type="text" id="firstname" name="firstname" placeholder="firstname" required>
+    <label for="lastname">Last Name</label>
+    <input type="text" id="lastname" name="lastname" placeholder="lastname" required>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="username" required>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required>
+    <button type="submit">Sign Up</button>
+  </form>
+</body>
+</html>

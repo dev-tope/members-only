@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <% if(locals.user) { %>
+      <h1><%= user.username %>'s Profile</h1>
+      <hr>
+      <h2>Information</h2>
+      <p><b>Name:</b> <%= user.firstname %> <%= user.lastname %> </p>
+      <p><b>Membership Status</b>
+      <% if(user.is_member) { %>
+        <span style="color: green;">Active</span>
+      <% } else { %>
+        <span style="color: red;">Inactive</span>
+      <% }%>
+      </p>
+      <p><b>Admin Status</b>
+        <% if(user.is_admin) { %>
+          <span style="color: green;">Active</span>
+        <% } else { %>
+          <span style="color: red;">Inactive</span>
+        <% }%>
+      </p>
+
+      <div>
+        <h2>All messages</h2>
+        <% if(locals.messages && messages.length > 0) { %>
+          <% messages.forEach(message => { %>
+            <div>
+              <p><b>Title: </b><%= message.title %></p>
+              <p><b>Time sent: </b><%= message.time %></p>
+              <p><b>Message: </b><%= message.message %></p>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>No messages from you yet</p>
+        <% } %>
+      </div>
+    <% } else { %>
+      Login
+    <% } %>
+  </div>
+</body>
+</html>

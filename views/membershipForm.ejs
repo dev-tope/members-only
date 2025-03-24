@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become A Member</title>
+</head>
+<body>
+  <% if(locals.user) { %>
+    <p>Enter Membership Code</p>
+    <%- include("partials/sign-up-errors.ejs") %>
+    <form action="/auth/membership/<%= user.username %>" method="POST">
+      <label for="code">Code</label>
+      <input type="text" name="code" id="code">
+      <button type="submit">Enter</button>
+    </form>
+  <% } else { %>
+    <div>
+      <p>Please <a href="/auth/log-in">log in</a> to access this page</p>
+    </div>
+  <% } %>
+ 
+</body>
+</html>
