@@ -3,23 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/output.css">
   <title>Sign Up</title>
 </head>
-<body>
-  <h1>Sign Up</h1>
-  <%- include("partials/sign-up-errors") %>
-  <form action="/auth/sign-up" method="POST">
-    <label for="firstname">First Name</label>
-    <input type="text" id="firstname" name="firstname" placeholder="firstname" required>
-    <label for="lastname">Last Name</label>
-    <input type="text" id="lastname" name="lastname" placeholder="lastname" required>
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" placeholder="username" required>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-    <label for="confirmPassword">Confirm Password</label>
-    <input type="password" id="confirmPassword" name="confirmPassword" required>
-    <button type="submit">Sign Up</button>
-  </form>
+<body class="min-h-screen flex flex-col">
+  <%- include("partials/header") %>
+  <main class="flex-grow">
+    <%- include("partials/sign-up-errors") %>
+    <div class="flex flex-col py-4">
+      <div class="flex flex-row justify-center">
+        <h1 class="text-xl font-bold">Sign Up</h1>
+      </div>
+      <div class="flex flex-row justify-center">
+        <form action="/auth/sign-up" method="POST">
+          <div class="mt-2">
+            <label for="firstname">First Name</label>
+            <input class="border-2 w-64" type="text" id="firstname" name="firstname" placeholder="firstname" required>
+          </div>
+          <div class="mt-2">
+            <label for="lastname">Last Name</label>
+            <input class="border-2 ml-1 w-64" type="text" id="lastname" name="lastname" placeholder="lastname" required>
+          </div>
+          <div class="mt-2">
+            <label for="username">Username</label>
+            <input class="border-2 ml-3 w-64" type="text" id="username" name="username" placeholder="username" required>
+          </div>
+          <div class="mt-2">
+            <label for="password">Password</label>
+            <input class="border-2 ml-4 w-64" type="password" id="password" name="password" required>
+          </div>
+          <div class="mt-2">
+            <label for="confirmPassword" class="">Confirm Password</label>
+            <input class="border-2 w-52" type="password" id="confirmPassword" name="confirmPassword" required>
+          </div>
+          <div class="flex flex-row justify-center mt-4">
+            <button class="border-2 border-black bg-black text-white font-bold px-3 py-1" type="submit">Sign Up</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <%- include("partials/footer) %>
 </body>
 </html>

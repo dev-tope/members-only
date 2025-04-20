@@ -3,47 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/output.css">
   <title>Document</title>
 </head>
-<body>
-  <div>
-    <% if(locals.user) { %>
-      <h1><%= user.username %>'s Profile</h1>
-      <hr>
-      <h2>Information</h2>
-      <p><b>Name:</b> <%= user.firstname %> <%= user.lastname %> </p>
-      <p><b>Membership Status</b>
-      <% if(user.is_member) { %>
-        <span style="color: green;">Active</span>
+<body class="min-h-screen flex flex-col">
+  <%- include("partials/header") %>
+  <main class="flex-grow">
+    <div class="">
+      <% if(locals.user) { %>
+        <div class="h-12 flex flex-row items-center p-4">
+          <h1 class="text-2xl font-bold"><%= user.username %>'s Profile</h1>
+        </div>
+        <div class="px-4">
+          <p><b>Name:</b> <%= user.firstname %> <%= user.lastname %> </p>
+          <p><b>Membership Status</b>
+            <% if(user.is_member) { %>
+              <span class="text-green-700">Active</span>
+            <% } else { %>
+              <span class="text-red-500">Inactive</span>
+            <% }%>
+            </p>
+            <p><b>Admin Status</b>
+              <% if(user.is_admin) { %>
+                <span class="text-green-700">Active</span>
+              <% } else { %>
+                <span class="text-red-500">Inactive</span>
+              <% }%>
+            </p>
+        </div>
+  
+        <div class="px-4 mt-4">
+          <div class="mb-4">
+            <h2 class="text-xl font-bold">All messages</h2>
+          </div>
+          <% if(locals.messages && messages.length > 0) { %>
+            <% messages.forEach(message => { %>
+              <div class="border-2 border-black mb-4 w-2xl h-36">
+                <div class="bg-red-400 px-1">
+                  <p><b>Title: </b><%= message.title %></p>
+                  <p><b>Time sent: </b><%= message.time %></p>
+                </div>
+                <div class="px-1 py-2">
+                  <p><b>Message: </b><%= message.message %></p>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>No messages from you yet</p>
+          <% } %>
+        </div>
       <% } else { %>
-        <span style="color: red;">Inactive</span>
-      <% }%>
-      </p>
-      <p><b>Admin Status</b>
-        <% if(user.is_admin) { %>
-          <span style="color: green;">Active</span>
-        <% } else { %>
-          <span style="color: red;">Inactive</span>
-        <% }%>
-      </p>
-
-      <div>
-        <h2>All messages</h2>
-        <% if(locals.messages && messages.length > 0) { %>
-          <% messages.forEach(message => { %>
-            <div>
-              <p><b>Title: </b><%= message.title %></p>
-              <p><b>Time sent: </b><%= message.time %></p>
-              <p><b>Message: </b><%= message.message %></p>
-            </div>
-          <% }); %>
-        <% } else { %>
-          <p>No messages from you yet</p>
-        <% } %>
-      </div>
-    <% } else { %>
-      Login
-    <% } %>
-  </div>
+        Login
+      <% } %>
+    </div>
+  </main>
+  <%- include("partials/footer") %>
 </body>
 </html>

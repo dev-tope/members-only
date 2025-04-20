@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/output.css">
   <title>Become A Member</title>
 </head>
-<body>
-  <% if(locals.user) { %>
-    <p>Enter Membership Code</p>
-    <%- include("partials/sign-up-errors.ejs") %>
-    <form action="/auth/membership/<%= user.username %>" method="POST">
-      <label for="code">Code</label>
-      <input type="text" name="code" id="code">
-      <button type="submit">Enter</button>
-    </form>
-  <% } else { %>
-    <div>
-      <p>Please <a href="/auth/log-in">log in</a> to access this page</p>
-    </div>
-  <% } %>
+<body class="min-h-screen flex flex-col">
+  <%- include("partials/header")%>
+  <div class="flex-grow mt-4 px-8">
+    <% if(locals.user) { %>
+      <p class="font-bold">Enter Membership Code</p>
+      <%- include("partials/sign-up-errors.ejs") %>
+      <div class="mt-2">
+        <form action="/auth/membership/<%= user.username %>" method="POST">
+          <label for="code">Code</label>
+          <input type="text" name="code" id="code" class="border-2 px-1">
+          <button type="submit" class="bg-black text-white font-bold px-2 py-0.5 ml-2">Enter</button>
+        </form>
+        <div class="mt-2">
+          <p class="text-red-600">* You can become a member if you know where to look</p>
+        </div>
+      </div>
+    <% } else { %>
+      <div>
+        <p>Please <a href="/auth/log-in">log in</a> to access this page</p>
+      </div>
+    <% } %>
+  </div>
+  <%- include("partials/footer") %>
  
 </body>
 </html>

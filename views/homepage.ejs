@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="css/output.css" rel="stylesheet">
+  <title>Member's Blog</title>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="h-18 grid grid-cols-2 content-center px-8 border-2 border-black bg-red-400">
+    <div>
+      <h1 class="py-2 text-xl font-bold flex flex-row justify-center">Member's Blog</h1>
+    </div>
+    <div class="w-x flex flex-row justify-center">
+      <a href="/auth/log-in" class="border-2 mr-8 px-4 py-2">Log in</a>
+      <a href="/auth/sign-up" class="border-2 px-4 py-2">Sign up</a>
+    </div>
+  </header>
+  <main class="flex-grow">
+    <div class="mt-8 h-screen flex flex-col items-center">
+      <% messages.forEach( message => { %>
+        <div class="msg-card border-2 border-black w-md mb-4">
+          <div class="msg-card-upper px-2  bg-red-400 border-b-2">
+            <div class="msg-title">
+              <%= message.title %>
+            </div>
+            <div class="msg-sender-time flex flex-row justify-between w-48">
+              <div class="msg-sender">
+                <p><%= senderEmoji %> ******</p>
+              </div>
+              <div class="msg-time">
+                <p><%= timeEmoji %> *******</p>
+              </div>
+            </div>
+          </div>
+          <div class="msg-card-lower px-2 h-32 pt-2 pb-2">
+            <div class="msg-content">
+              <%= message.message %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+  <%- include("partials/footer") %>
+</body>
+</html>                                       

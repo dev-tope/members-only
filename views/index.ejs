@@ -1,63 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome</title>
-</head>
-<body>
-  <% if(locals.user) { %>  
-    <div>
-      <p>Welcome <%= user.username %> <% if(user.is_member){ %>
-        | <b>Member</b>
-     <% } %> <% if(user.is_admin) { %>
-        | <b>ADMIN</b>
-     <% } %></p>
-    </div>
-    <div>
-      <a href="/<%= user.username %>/create-message">Create New Message</a>
-      <a href="/auth/membership/<%= user.username %>">Become a member</a>
-      <a href="/<%= user.username %>/profile">Profile</a>
-      <a href="/log-out">Log out</a>
-    </div>
-    <div>
-      <% if(locals.messages && messages.length > 0) { %>
-        <% messages.forEach(message => { %>
-          <div>
-            <p><b>Sent by: </b>
-              <% if (user.is_member ||user.is_admin) { %>
-                <%= message.firstname %> <%= message.lastname %> @<%= message.username %>
-              <% } else { %>
-                <span>***** ***** @*****</span>
-              <% } %>
-            </p>
-            <p><b>Time sent: </b>
-              <% if(user.is_member || user.is_admin) { %>
-                <%= message.time %>
-              <% } else { %>
-                <span>**********</span>
-              <% } %>
-            </p>
-            <p><b>Title: </b><%= message.title %></p>
-
-            <p><b>Message: </b><%= message.message %></p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
+    <title>Welcome</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <%- include("partials/header") %>
+    <main class="flex-grow">
+      <div class="px-4">
+        <% if(locals.user) { %>  
+          <div class="">
+            <p class="font-bold">Welcome <%= user.username %> <% if(user.is_member){ %>
+              | <b>Member</b>
+          <% } %> <% if(user.is_admin) { %>
+              | <b class="bg-green-700 text-white px-2 rounded-2">ADMIN</b>
+          <% } %></p>
           </div>
-          <% if(user.is_admin) { %>
-            <form action="/admin/delete/<%= message.message_id %>" method="POST">
-              <button>DELETE</button>
-            </form>
-          <% } %>
-          <hr>
-        <% }); %>
-      <% } else { %>
-        <p>There are no messages.</p>
-      <%}%>
-    </div>
-  <% } else { %>
-    <a href="/auth/log-in">Log in here</a>
-    <br>
-    Dont have an account? <a href="/auth/sign-up">Sign up here</a>
-  <% } %>
- 
-</body>
+          <div class="flex flex-col justify-center items-center">
+            <div class="w-3xl flex flex-row justify-between mt-8">
+              <a href="/<%= user.username %>/create-message" class="bg-green-700 text-white px-2 py-1 rounded-sm font-bold">Create New Message + </a>
+              <a href="/auth/membership/<%= user.username %>" class="border-2 px-2 rounded-2xl">Become a member</a>
+              <a href="/<%= user.username %>/profile" class="border-2 px-2 rounded-2xl">Profile</a>
+              <a href="/log-out" class="border-2 px-2 rounded-2xl">Log out</a>
+            </div>
+            <div class="mt-4">
+              <% if(locals.messages && messages.length > 0) { %>
+                <% messages.forEach(message => { %>
+                  <div class="border-2 w-xl mb-4">
+                    <div class="bg-red-400">
+                      <div class="px-4">
+                        <p><%= senderEmoji %>
+                          <% if (user.is_member || user.is_admin) { %>
+                            <%= message.firstname.toUpperCase() %> <%= message.lastname.toUpperCase()%> <b>@<%= message.username %></b>
+                          <% } else { %>
+                            <span>***** ***** @*****</span>
+                          <% } %>
+                        </p>
+                        <p><%= timeEmoji %>
+                          <% if(user.is_member || user.is_admin) { %>
+                            <%= message.time %>
+                          <% } else { %>
+                            <span>**********</span>
+                          <% } %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="px-4">
+                      <p><b>Title: </b><%= message.title %></p>
+          
+                      <p><b>Message: </b><%= message.message %></p>
+                      <% if(user.is_admin) { %>
+                        <div class="flex flex-row justify-end mb-2">
+        
+                          <form action="/admin/delete/<%= message.message_id %>" method="POST">
+                            <button class="border-1 border-black px-2 bg-black text-white">DELETE</button>
+                          </form>
+                        </div>
+                      <% } %>
+                    </div>
+                  </div>
+                <% }); %>
+              <% } else { %>
+                <p>There are no messages.</p>
+              <%}%>
+            </div>
+          </div>
+        <% } else { %>
+          <a href="/auth/log-in">Log in here</a>
+          <br>
+          Dont have an account? <a href="/auth/sign-up">Sign up here</a>
+        <% } %>
+      </div>
+    </main>
+    <%- include("partials/footer") %>
+  </body>
 </html>

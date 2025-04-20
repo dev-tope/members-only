@@ -1,12 +1,20 @@
 const pool = require("../db/pool");
+const emoji = require("node-emoji")
 const { createMessage, getMessagesByUsername, getAllMessages, deleteMessageByID } = require("../db/queries");
 
 const { body, validationResult } = require("express-validator");
 
 async function userHomepageGet(req, res) {
   const messages = await getAllMessages()
-  console.log(messages)
-  res.status(200).render("index", {user: req.user, messages: messages})
+  // console.log(messages)
+  res.status(200).render("index", 
+    { 
+      user: req.user, 
+      messages: messages,
+      senderEmoji: emoji.get("bust_in_silhouette"),
+      timeEmoji: emoji.get("alarm_clock"),
+    }
+  )
 }
 
 async function userProfileGet(req, res) {

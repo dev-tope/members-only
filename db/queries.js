@@ -54,8 +54,14 @@ async function getAllMessages() {
       ON users.username = messages.username
     `);
 
-    return results.rows.map( result => {
-      const date = new Date()
+    return results.rows.map(message => {
+      const date = new Date(message.time);
+
+      return {
+        ...message,
+        formattedTime: date.toLocaleTimeString(),
+        formattedDate: date.toLocaleDateString(),
+      }
     })
     
   } catch(error) {

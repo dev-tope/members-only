@@ -1,25 +1,35 @@
 const express = require("express");
+const flash = require("connect-flash")
+const session = require("express-session");
+const LocalStrategy = require("passport-local").Strategy;
 const dotenv = require("dotenv");
 const path = require("path");
 const pool = require("./db/pool")
-const session = require("express-session");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
-const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash")
 const authRouter = require("./routes/authRoutes");
 const userRouter= require("./routes/userRoutes");
 const adminRouter = require("./controllers/adminRoutes");
+const emoji = require("node-emoji");
+
+
+const { getAllMessages } = require('./db/queries');
+
 
 const app = express()
 dotenv.config()
 
 const PORT = process.env.PORT;
 
+app.locals.emoji = emoji;
+
 app.use(session({
   secret: "12345",
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000
+  }
 }));
 
 app.use(passport.session())
@@ -67,7 +77,9 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
@@ -80,11 +92,25 @@ app.use((req, res, next) => {
 });
 
 //Routes
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  // if(req.isAuthenticated()) {
+  //   return res.redirect(`${req.user.username}`)
+  // } else {
+  //   return res.redirect("/auth/log-in")
+  // }
+  const messages = await getAllMessages()
+  // console.log("messages here", messages)
+
   if(req.isAuthenticated()) {
     return res.redirect(`${req.user.username}`)
   } else {
-    return res.redirect("/auth/log-in")
+    return res.render("homepage", 
+      { 
+        messages: messages, 
+        senderEmoji: emoji.get("bust_in_silhouette"), 
+        timeEmoji: emoji.get("alarm_clock") 
+      }
+    );
   }
 })
 
