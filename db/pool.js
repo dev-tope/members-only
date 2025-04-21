@@ -4,11 +4,15 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const pool = new Pool ({
-  host: process.env.DBHOST,
-  database: process.env.DBNAME,
-  username: process.env.DBUSER,
-  password: process.env.DBPASSWORD,
-  port: process.env.DBPORT
+  // host: process.env.DBHOST,
+  // database: process.env.DBNAME,
+  // username: process.env.DBUSER,
+  // password: process.env.DBPASSWORD,
+  // port: process.env.DBPORT
+  connectionString: process.env.DATBASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 (async () => {
